@@ -112,7 +112,7 @@ class ShellModule(types.ModuleType):
         shell = shell if shell else self.config['shell']
         env = env if env else self.config['env']
 
-        proc = subprocess.Popen(cmdline, shell=True, executable=shell, env=env,
+        proc = subprocess.Popen(cmdline, shell=False, executable=shell, env=env,
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                 stdin=subprocess.PIPE if stdin else None)
         stdout, stderr = proc.communicate(input=stdin, timeout=timeout)
