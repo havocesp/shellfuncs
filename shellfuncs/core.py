@@ -25,6 +25,7 @@ import functools
 from pathlib import Path
 from collections import namedtuple
 from contextlib import contextmanager
+from security import safe_command
 
 
 #: Holds the logger for shellfuncs.
@@ -112,7 +113,7 @@ class ShellModule(types.ModuleType):
         shell = shell if shell else self.config['shell']
         env = env if env else self.config['env']
 
-        proc = subprocess.Popen(cmdline, shell=True, executable=shell, env=env,
+        proc = safe_command.run(subprocess.Popen, cmdline, shell=True, executable=shell, env=env,
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                 stdin=subprocess.PIPE if stdin else None)
         stdout, stderr = proc.communicate(input=stdin, timeout=timeout)
